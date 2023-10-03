@@ -11,6 +11,37 @@
 - 인증: NextAuth (Google, Github 소셜로그인)
 - 이미지: Cloudinary CDN
 
+## Installation
+### Prerequisites
+Node v14.x
+
+### Install packages
+```
+npm i // or yarn
+```
+### .env file
+```
+DATABASE_URL=
+MONGODB_PW=
+NEXTAUTH_SECRET=
+
+NEXT_PUBLIC_PUSHER_APP_KEY=
+PUSHER_APP_ID=
+PUSHER_SECRET=
+
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+
+GITHUB_ID=
+GITHUB_SECRET=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
+### Start the app
+```
+npm run dev // or yarn dev
+```
+
 ## Debugging (이슈, 버그, 개선)
 
 ### [에러] The `app` directory is experimental. To enable, add `appDir: true` to your `next.config.js` configuration under `experimental`. July 19, 2023 
