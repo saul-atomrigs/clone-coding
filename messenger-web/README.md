@@ -107,8 +107,12 @@ Node v14.x
 
 ### Install dependencies
 ```
-npm i // or yarn
+npm i
 ```
+```
+yarn
+```
+
 ### .env file
 ```
 DATABASE_URL=
@@ -129,7 +133,10 @@ GOOGLE_CLIENT_SECRET=
 ```
 ### Start the project
 ```
-npm run dev // or yarn dev
+npm run dev
+```
+```
+yarn dev
 ```
 
 ## 📌 Debugging History (이슈, 버그, 개선)
