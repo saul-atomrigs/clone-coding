@@ -132,7 +132,7 @@ GOOGLE_CLIENT_SECRET=
 npm run dev // or yarn dev
 ```
 
-## Debugging (이슈, 버그, 개선)
+## Debugging History (이슈, 버그, 개선)
 
 ### [에러] The `app` directory is experimental. To enable, add `appDir: true` to your `next.config.js` configuration under `experimental`. July 19, 2023 
 
