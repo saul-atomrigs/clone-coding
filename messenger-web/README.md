@@ -105,11 +105,16 @@
 ### Prerequisites
 Node v14.x
 
+### Clone project
+```
+git clone https://github.com/saul-atomrigs/clone-coding-projects.git
+cd messenger-web
+```
+
 ### Install dependencies
 ```
 npm i
-```
-```
+or
 yarn
 ```
 
@@ -134,8 +139,7 @@ GOOGLE_CLIENT_SECRET=
 ### Start the project
 ```
 npm run dev
-```
-```
+or
 yarn dev
 ```
 
