@@ -66,7 +66,20 @@
  ┃ ┃ ┣ 📜 AuthContext.tsx // 현재 유저 세션을 전역에 유지합니다
  ┃ ┃ ┣ 📜 ToasterContext.tsx // 토스트 알림 컴포넌트를 위한 전역 컨테이너
  ┃ ┣ 📂 conversations
- ┃ ┃ ┣ 📂 [conversationId] // 
+ ┃ ┃ ┣ 📂 [conversationId] // 각 채팅ID 별 컴포넌트
+ ┃ ┃ ┃ ┣ 📂 components
+ ┃ ┃ ┃ ┃ ┣ 📜 Body.tsx //  채팅방(MessageBox) 목록을 보여주는 UI. 메시지 업데이트 및 스크롤 기능을 제공합니다.
+ ┃ ┃ ┃ ┃ ┣ 📜 ConfirmModal.tsx // 삭제 여부를 묻는 모달 창
+ ┃ ┃ ┃ ┃ ┣ 📜 Form.tsx // 채팅 입력창 
+ ┃ ┃ ┃ ┃ ┣ 📜 Header.tsx // 대화창 헤더 
+ ┃ ┃ ┃ ┃ ┣ 📜 ImageModal.tsx // 이미지를 보여주는 모달 창 
+ ┃ ┃ ┃ ┃ ┣ 📜 MessageBox.tsx // 메시지 버블 UI
+ ┃ ┃ ┃ ┃ ┣ 📜 MessageInput.tsx // 채팅 입력창 전체 UI (메시지 입력창 + 보내기 버튼) 
+ ┃ ┃ ┃ ┃ ┣ 📜 ProfileDrawer.tsx // 유저 프로필을 보여주는 Drawer
+ ┃ ┃ ┃ ┣ 📂 seen
+ ┃ ┃ ┃ ┃ ┣ 📜 route.ts // 채팅 생성을 위한 POST 요청
+ ┃ ┃ ┃ ┣ 📜 page.tsx // 채팅방 UI
+ ┃ ┃ ┃ ┣ 📜 route.ts // 채팅방 생성을 위한 POST 요청
  ┃ ┃ ┣ 📂 components
  ┃ ┃ ┣ 📜 layout.tsx
  ┃ ┃ ┣ 📜 loading.tsx
