@@ -1,19 +1,28 @@
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import { NextResponse } from 'next/server';
 import prisma from '@/app/libs/prismadb';
+import { pusherServer } from '@/app/libs/pusher';
 
+/**
+ * Creates a new message and updates the conversation.
+ * 새로운 메시지를 만들고 채팅 목록을 업데이트합니다
+ */
 export default async function POST(request: Request) {
   try {
+    // Get the current user
     const currentUser = await getCurrentUser();
+
+    // Parse the request body
     const body = await request.json();
     const { message, image, conversationId } = body;
 
+    // Check if the user is authenticated
     if (!currentUser?.id || !currentUser?.email) {
-      /** 인증 에러로 인해 클라이언트 요청이 진행되지 않음 */
+      // Return an unauthorized response
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    /** 새 메시지 생성 */
+    // Create a new message
     const newMessage = await prisma.message.create({
       include: {
         seen: true,
@@ -36,7 +45,7 @@ export default async function POST(request: Request) {
       },
     });
 
-    /** 대화 업데이트 */
+    // Update the conversation
     const updatedConversation = await prisma.conversation.update({
       where: {
         id: conversationId,
@@ -59,10 +68,14 @@ export default async function POST(request: Request) {
       },
     });
 
+    // Trigger a pusher event for the new message
     await pusherServer.trigger(conversationId, 'messages: new', newMessage);
 
-    const lastMessage = updatedConversation.messages[updatedConversation.messages.length - 1];
+    // Get the last message in the updated conversation
+    const lastMessage =
+      updatedConversation.messages[updatedConversation.messages.length - 1];
 
+    // Trigger a pusher event to update each user's conversation
     updatedConversation.users.map((user) => {
       pusherServer.trigger(user.email!, 'conversation:update', {
         id: conversationId,
@@ -70,9 +83,10 @@ export default async function POST(request: Request) {
       });
     });
 
+    // Return the new message as a JSON response
     return NextResponse.json(newMessage);
   } catch (error: any) {
-    /** 서버 에러 */
+    // Return a server error response
     return new NextResponse('Something went wrong', { status: 500 });
   }
 }

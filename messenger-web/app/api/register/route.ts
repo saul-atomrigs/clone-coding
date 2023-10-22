@@ -3,7 +3,7 @@ import prisma from '@/app/libs/prismadb';
 import { NextResponse } from 'next/server';
 
 /**
- * Handles the POST request to create a new user.
+ * Creates a new user.
  * 회원 가입 유저 계정을 생성합니다
  */
 export async function POST(request: Request) {

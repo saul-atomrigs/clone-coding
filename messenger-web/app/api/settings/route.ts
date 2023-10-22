@@ -6,9 +6,6 @@ import prisma from '@/app/libs/prismadb';
  * Updates the user's image and name based on the request body.
  * If the user is not authenticated, returns an Unauthorized response.
  * If there is an error, returns a Internal Server Error response.
- *
- * @param request - The HTTP request object.
- * @returns The response with the updated user data or an error response.
  */
 export default async function POST(request: Request) {
   try {
