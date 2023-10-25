@@ -4,11 +4,16 @@ import clsx from 'clsx';
 type MobileItemProps = {
   href: string;
   icon: any;
-  onClick: () => void;
+  onClick: (() => Promise<undefined>) | undefined;
   active?: boolean;
 };
 
-export default function MobileItem({ href, icon: Icon, onClick, active }: MobileItemProps) {
+export default function MobileItem({
+  href,
+  icon: Icon,
+  onClick,
+  active,
+}: MobileItemProps) {
   const handleClick = () => {
     if (onClick) {
       onClick();
