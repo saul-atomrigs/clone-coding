@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import Modal from './Modal';
 import Input from '../inputs/Input';
 import Button from '../Button';
+import Select from '../inputs/Select';
 
 type GroupChatModalProps = {
   isOpen: boolean;
@@ -19,10 +20,7 @@ type GroupChatModalProps = {
 
 /**
  * Renders a modal for creating a group chat.
- *
- * @param isOpen - Whether the modal is open or not.
- * @param onClose - Function to close the modal.
- * @param users - Array of users to select from.
+ * 단체채팅방 만들기 위한 모달창 컴포넌트
  */
 export default function GroupChatModal({
   isOpen,
