@@ -1,5 +1,15 @@
 # Facebook(Meta) Messenger Clone
 
+## 📌 Demo (주요 기능)
+### Social Login
+![sc01](https://github.com/saul-atomrigs/clone-coding-projects/assets/82362278/9ac4ce2e-4c10-454b-9c3c-7aa79391aaba)
+
+### Start Conversation
+![sc02](https://github.com/saul-atomrigs/clone-coding-projects/assets/82362278/8377ccf6-c8e9-477e-899a-b8b0acd5aaec)
+
+### Mobile Friendly
+![sc03](https://github.com/saul-atomrigs/clone-coding-projects/assets/82362278/bbf35d6c-6da0-40e9-871a-9b113d553050)
+
 ## 📌 Tech Stack
 - 언어: Typescript
 - 프론트엔드: Next.js 13
@@ -115,23 +125,22 @@
 ```
 
 ## 📌 Installation
-### Prerequisites
-Node v14.x
+Node v14 이상이 필요해요
 
-### Clone project
+레포지토리를 `clone` 해주세요
 ```
 git clone https://github.com/saul-atomrigs/clone-coding-projects.git
 cd messenger-web
 ```
 
-### Install dependencies
+Dependencies 설치를 해주세요
 ```
 npm i
 or
 yarn
 ```
 
-### .env file
+환경변수를 `.env` 파일에 추가해주세요
 ```
 DATABASE_URL=
 MONGODB_PW=
@@ -149,7 +158,7 @@ GITHUB_SECRET=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 ```
-### Start the project
+개발 모드를 실행해주세요 (`localhost:3000`)
 ```
 npm run dev
 or
