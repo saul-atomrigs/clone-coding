@@ -5,11 +5,20 @@ type DesktopItemProps = {
   label: string;
   icon: any;
   href: string;
-  onClick: () => void;
+  onClick: (() => Promise<undefined>) | undefined;
   active?: boolean;
 };
 
-export default function DesktopItem({ label, icon: Icon, href, onClick, active }: DesktopItemProps) {
+/**
+ * 데스크탑 전용 아이템 컴포넌트
+ */
+export default function DesktopItem({
+  label,
+  icon: Icon,
+  href,
+  onClick,
+  active,
+}: DesktopItemProps) {
   const handleClick = () => {
     if (onClick) {
       onClick();
