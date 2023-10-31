@@ -18,7 +18,15 @@ type SettingsModalProps = {
   currentUser: User;
 };
 
-export default function SettingsModal({ isOpen, onClose, currentUser = {} }: SettingsModalProps) {
+/**
+ * Render a modal for editing user settings.
+ * 유저 정보(프로필사진,이름) 업데이트 위한 모달창 컴포넌트
+ */
+export default function SettingsModal({
+  isOpen,
+  onClose,
+  currentUser = {},
+}: SettingsModalProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -72,10 +80,19 @@ export default function SettingsModal({ isOpen, onClose, currentUser = {} }: Set
             >
               Profile
             </h2>
-            <p className='mt-1 text-sm leading-6 text-gray-600'>Edit your public information.</p>
+            <p className='mt-1 text-sm leading-6 text-gray-600'>
+              Edit your public information.
+            </p>
 
             <div className='mt-10 flex flex-col gap-y-8'>
-              <Input disabled={isLoading} label='Name' id='name' errors={errors} required register={register} />
+              <Input
+                disabled={isLoading}
+                label='Name'
+                id='name'
+                errors={errors}
+                required
+                register={register}
+              />
               <div>
                 <label
                   htmlFor='photo'
@@ -94,10 +111,16 @@ export default function SettingsModal({ isOpen, onClose, currentUser = {} }: Set
                     width='48'
                     height='48'
                     className='rounded-full'
-                    src={image || currentUser?.image || '/images/placeholder.jpg'}
+                    src={
+                      image || currentUser?.image || '/images/placeholder.jpg'
+                    }
                     alt='Avatar'
                   />
-                  <CldUploadButton options={{ maxFiles: 1 }} onUpload={handleUpload} uploadPreset='pgc9ehd5'>
+                  <CldUploadButton
+                    options={{ maxFiles: 1 }}
+                    onUpload={handleUpload}
+                    uploadPreset='pgc9ehd5'
+                  >
                     <Button disabled={isLoading} secondary type='button'>
                       Change
                     </Button>

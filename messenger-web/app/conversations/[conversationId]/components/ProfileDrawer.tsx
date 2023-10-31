@@ -1,5 +1,3 @@
-'use client';
-
 import { Fragment, useMemo, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { format } from 'date-fns';
@@ -21,7 +19,14 @@ type ProfileDrawerProps = {
   };
 };
 
-export default function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
+/**
+ *  유저 프로필을 보여주는 Drawer
+ */
+export default function ProfileDrawer({
+  isOpen,
+  onClose,
+  data,
+}: ProfileDrawerProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const otherUser = useOtherUser(data);
 
@@ -46,7 +51,10 @@ export default function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerPr
 
   return (
     <>
-      <ConfirmModal isOpen={confirmOpen} onClose={() => setConfirmOpen(false)} />
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+      />
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog as='div' className='relative z-50' onClose={onClose}>
           <Transition.Child
@@ -91,9 +99,17 @@ export default function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerPr
                       </div>
                       <div className='relative mt-6 flex-1 px-4 sm:px-6'>
                         <div className='flex flex-col items-center'>
-                          <div className='mb-2'>{data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />}</div>
+                          <div className='mb-2'>
+                            {data.isGroup ? (
+                              <AvatarGroup users={data.users} />
+                            ) : (
+                              <Avatar user={otherUser} />
+                            )}
+                          </div>
                           <div>{title}</div>
-                          <div className='text-sm text-gray-500'>{statusText}</div>
+                          <div className='text-sm text-gray-500'>
+                            {statusText}
+                          </div>
                           <div className='flex gap-10 my-8'>
                             <div
                               onClick={() => setConfirmOpen(true)}
@@ -102,7 +118,9 @@ export default function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerPr
                               <div className='w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center'>
                                 <IoTrash size={20} />
                               </div>
-                              <div className='text-sm font-light text-neutral-600'>Delete</div>
+                              <div className='text-sm font-light text-neutral-600'>
+                                Delete
+                              </div>
                             </div>
                           </div>
                           <div className='w-full pb-5 pt-5 sm:px-0 sm:pt-0'>
@@ -128,7 +146,9 @@ export default function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerPr
                                   sm:col-span-2
                                 '
                                   >
-                                    {data.users.map((user) => user.email).join(', ')}
+                                    {data.users
+                                      .map((user) => user.email)
+                                      .join(', ')}
                                   </dd>
                                 </div>
                               )}
@@ -180,7 +200,9 @@ export default function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerPr
                                     sm:col-span-2
                                   '
                                     >
-                                      <time dateTime={joinedDate}>{joinedDate}</time>
+                                      <time dateTime={joinedDate}>
+                                        {joinedDate}
+                                      </time>
                                     </dd>
                                   </div>
                                 </>
