@@ -17,13 +17,16 @@ type ConversationBoxProps = {
   selected?: boolean;
 };
 
-export default function ConversationBox({ data, selected }: ConversationBoxProps) {
+export default function ConversationBox({
+  data,
+  selected,
+}: ConversationBoxProps) {
   const otherUser = useOtherUser(data);
   const session = useSession();
   const router = useRouter();
 
   const handleClick = useCallback(() => {
-    router.push(`/conversation/${data.id}`);
+    router.push(`/conversations/${data.id}`);
   }, [data.id, router]);
 
   const lastMessage = useMemo(() => {
@@ -79,12 +82,18 @@ export default function ConversationBox({ data, selected }: ConversationBoxProps
         selected ? 'bg-neutral-100' : 'bg-white'
       )}
     >
-      {data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />}
+      {data.isGroup ? (
+        <AvatarGroup users={data.users} />
+      ) : (
+        <Avatar user={otherUser} />
+      )}
       <div className='min-w-0 flex-1'>
         <div className='focus:outline-none'>
           <span className='absolute inset-0' aria-hidden='true' />
           <div className='flex justify-between items-center mb-1'>
-            <p className='text-md font-medium text-gray-900'>{data.name || otherUser.name}</p>
+            <p className='text-md font-medium text-gray-900'>
+              {data.name || otherUser.name}
+            </p>
             {lastMessage?.createdAt && (
               <p
                 className='
