@@ -1,5 +1,5 @@
 import getUsers from '../actions/getUsers';
-import UserList from '../components/UserList';
+import UserList from './components/UserList';
 import Sidebar from '../components/sidebar/Sidebar';
 
 type UsersLayoutProps = {
