@@ -1,31 +1,26 @@
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import { NextResponse } from 'next/server';
-import prisma from '@/app/libs/prismadb'
-import {pusherServer} from '@/app/libs/pusher'
+import prisma from '@/app/libs/prismadb';
+import { pusherServer } from '@/app/libs/pusher';
 
 /**
  * Creates new conversation
+ * 새로운 대화창을 만들고 채팅 목록을 업데이트합니다
  */
-export default async function POST(request: Request) {
+export async function POST(request: Request) {
   try {
-    // Get the current user
-    const currentUser = await getCurrentUser()
+    const currentUser = await getCurrentUser();
+    const body = await request.json();
+    const { userId, isGroup, members, name } = body;
 
-    // Get the request body and destructure the required properties
-    const body = await request.json()
-    const { userId, isGroup, members, name } = body
-
-    // Check if the current user is authorized
     if (!currentUser?.id || !currentUser?.email) {
-      return new NextResponse('Unauthorized', { status: 400 })
+      return new NextResponse('Unauthorized', { status: 400 });
     }
 
-    // Check if the data for a group conversation is valid
     if (isGroup && (!members || members.length < 2 || !name)) {
-      return new NextResponse('Invalid Data', { status: 400 })
+      return new NextResponse('Invalid data', { status: 400 });
     }
 
-    // Create a new group conversation
     if (isGroup) {
       const newConversation = await prisma.conversation.create({
         data: {
@@ -33,79 +28,80 @@ export default async function POST(request: Request) {
           isGroup,
           users: {
             connect: [
-              ...members.map((member: {value:string}) => ({
-                id: member.value
-              }))
-            ]
-          }
+              ...members.map((member: { value: string }) => ({
+                id: member.value,
+              })),
+              {
+                id: currentUser.id,
+              },
+            ],
+          },
         },
         include: {
-          users: true
-        }
-      })
+          users: true,
+        },
+      });
 
-      // Trigger the 'conversation:new' event for each user in the conversation
+      // Update all connections with new conversation
       newConversation.users.forEach((user) => {
         if (user.email) {
-          pusherServer.trigger(user.email, 'conversation:new', newConversation)
+          pusherServer.trigger(user.email, 'conversation:new', newConversation);
         }
-      })
+      });
 
-      return NextResponse.json(newConversation)
+      return NextResponse.json(newConversation);
     }
 
-    // Find existing conversations between the current user and the target user
     const existingConversations = await prisma.conversation.findMany({
       where: {
         OR: [
           {
             userIds: {
-              equals: [currentUser.id, userId]
-            }
+              equals: [currentUser.id, userId],
+            },
           },
           {
             userIds: {
-              equals: [userId, currentUser.id]
-            }
-          }
-        ]
-      }
-    })
+              equals: [userId, currentUser.id],
+            },
+          },
+        ],
+      },
+    });
 
-    // If a conversation already exists, return it
-    const singleConversation = existingConversations[0]
+    const singleConversation = existingConversations[0];
+
     if (singleConversation) {
-      return NextResponse.json(singleConversation)
+      return NextResponse.json(singleConversation);
     }
 
-    // Create a new conversation between the current user and the target user
     const newConversation = await prisma.conversation.create({
       data: {
         users: {
           connect: [
             {
-              id: currentUser.id
+              id: currentUser.id,
             },
             {
-              id: userId
-            }
-          ]
-        }
+              id: userId,
+            },
+          ],
+        },
       },
       include: {
-        users: true
-      }
-    })
+        users: true,
+      },
+    });
 
-    // Trigger the 'conversation:new' event for each user in the conversation
+    // Update all connections with new conversation
     newConversation.users.map((user) => {
       if (user.email) {
-        pusherServer.trigger(user.email, 'conversation:new', newConversation)
+        pusherServer.trigger(user.email, 'conversation:new', newConversation);
       }
-    })
+    });
 
-    return NextResponse.json(newConversation)
-  } catch (e: any) {
-    console.log(e)
+    return NextResponse.json(newConversation);
+  } catch (error) {
+    // return new NextResponse('Internal Error', { status: 500 });
   }
 }
