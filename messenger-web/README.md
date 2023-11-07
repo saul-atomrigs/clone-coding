@@ -158,7 +158,7 @@ GITHUB_SECRET=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 ```
-개발 모드를 실행해주세요 (`localhost:3000`)
+local 서버에서 실행하기 (`localhost:3000`)
 ```
 npm run dev
 or
