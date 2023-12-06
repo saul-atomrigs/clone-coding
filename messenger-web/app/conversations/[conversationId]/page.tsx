@@ -1,26 +1,23 @@
 import getConversationById from '@/app/actions/getConversationById';
 import getMessages from '@/app/actions/getMessages';
+
+import Header from './components/Header';
+import Body from './components/Body';
+import Form from './components/Form';
 import EmptyState from '@/app/components/EmptyState';
 
-type ChatIdProps = {
-  params: {
-    conversationId: string;
-  };
+type ParamsType = {
+  conversationId: string;
 };
 
 /**
  * Retrieves the chat ID and renders the chat UI.
- * @param params - The parameters for retrieving the chat ID.
- * @returns The rendered chat UI.
+ * 채팅ID를 불러와 UI를 렌더링합니다
  */
-export default async function ChatId({ params }: ChatIdProps) {
-  // Retrieve the conversation by ID
+const ChatId = async ({ params }: { params: ParamsType }) => {
   const conversation = await getConversationById(params.conversationId);
-
-  // Retrieve the messages for the conversation
   const messages = await getMessages(params.conversationId);
 
-  // If the conversation does not exist, render the empty state
   if (!conversation) {
     return (
       <div className='lg:pl-80 h-full'>
@@ -31,7 +28,6 @@ export default async function ChatId({ params }: ChatIdProps) {
     );
   }
 
-  // Render the chat UI
   return (
     <div className='lg:pl-80 h-full'>
       <div className='h-full flex flex-col'>
@@ -41,4 +37,6 @@ export default async function ChatId({ params }: ChatIdProps) {
       </div>
     </div>
   );
-}
+};
+
+export default ChatId;
