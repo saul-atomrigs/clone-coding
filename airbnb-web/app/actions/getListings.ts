@@ -11,6 +11,10 @@ export interface IListingsParams {
  category?: string
 }
 
+/**
+ * Retrieves a list of listings based on the provided parameters.
+ * 입력되는 파라미터에 해당하는 전체 에어비엔비 리스팅 목록을 반환합니다.
+ */
 export default async function getListings(params: IListingsParams) {
  try {
   const {
