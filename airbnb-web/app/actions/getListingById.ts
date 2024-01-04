@@ -4,6 +4,10 @@ interface IParams {
   listingId?: string;
 }
 
+/**
+ *  Finds the listing from its ID, and returns an object with information about the listing
+ *  DB에서 특정 에어비엔비 리스팅을 찾아 해당 리스팅의 정보를 포함하는 객체를 반환
+ */
 export default async function getListingById(params: IParams) {
   try {
     const { listingId } = params;
