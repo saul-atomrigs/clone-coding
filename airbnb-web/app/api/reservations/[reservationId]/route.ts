@@ -1,42 +1,41 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server"
 
-import prisma from '@/app/libs/prismadb';
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from "@/app/actions/getCurrentUser"
+import prisma from "@/app/libs/prismadb"
+
+interface IParams {
+ reservationId?: string
+}
 
 /**
- * Creates a new reservation for a listing.
+ * DELETE /api/reservations/:reservationId
  *
- * 에어비엔비 리스팅 예약을 생성하는 POST 함수
+ * Deletes a reservation based on the provided reservation ID.
+ *
+ * 예약 ID별로 예약을 삭제합니다.
  */
-export async function POST(request: Request) {
-  const currentUser = await getCurrentUser();
+export async function DELETE(
+ request: Request,
+ { params }: { params: IParams },
+) {
+ const currentUser = await getCurrentUser()
 
-  if (!currentUser) {
-    return NextResponse.error();
-  }
+ if (!currentUser) {
+  return NextResponse.error()
+ }
 
-  const body = await request.json();
-  const { listingId, startDate, endDate, totalPrice } = body;
+ const { reservationId } = params
 
-  if (!listingId || !startDate || !endDate || !totalPrice) {
-    return NextResponse.error();
-  }
+ if (!reservationId || typeof reservationId !== "string") {
+  throw new Error("Invalid ID")
+ }
 
-  const listingAndReservation = await prisma.listing.update({
-    where: {
-      id: listingId,
-    },
-    data: {
-      reservations: {
-        create: {
-          userId: currentUser.id,
-          startDate,
-          endDate,
-          totalPrice,
-        },
-      },
-    },
-  });
+ const reservation = await prisma.reservation.deleteMany({
+  where: {
+   id: reservationId,
+   OR: [{ userId: currentUser.id }, { listing: { userId: currentUser.id } }],
+  },
+ })
 
-  return NextResponse.json(listingAndReservation);
+ return NextResponse.json(reservation)
 }
